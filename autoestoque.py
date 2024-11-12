@@ -32,12 +32,14 @@ class Estoque:
 
     def remover_item(self, nome, quantidade):
         if nome in self.itens:
-            if self.itens[nome].quantidade >= quantidade:
-                self.itens[nome].quantidade -= quantidade
-                if self.itens[nome].quantidade == 0:
+            item = self.itens[nome]  # Corrigido a indentação aqui
+            if item.quantidade >= quantidade:
+                item.quantidade -= quantidade
+                if item.quantidade == 0:
                     del self.itens[nome]
+                st.success(f"Item '{nome}' removido com sucesso!")
             else:
-                st.warning("Quantidade insuficiente para remover.")
+                st.warning(f"Quantidade insuficiente para remover. Só há {item.quantidade} unidades de '{nome}' no estoque.")
         else:
             st.warning("Item não encontrado.")
 
@@ -94,7 +96,6 @@ def menu():
     if st.button("Remover Item"):
         if nome_remover and quantidade_remover > 0:
             estoque.remover_item(nome_remover, quantidade_remover)
-            st.success(f"Quantidade de '{nome_remover}' removida com sucesso!")
         else:
             st.error("Preencha todos os campos corretamente!")
 
