@@ -97,6 +97,7 @@ def menu():
         listar_btn = st.button("Listar Itens")
         organizar_btn = st.button("Organizar Itens")
         valor_total_btn = st.button("Valor Total")
+        salvar_btn = st.button("Salvar Estoque")
 
     # Ações com base nos botões clicados
     if adicionar_btn:
@@ -148,11 +149,10 @@ def menu():
             total = estoque.valor_total_estoque()
             st.write(f"O valor total do estoque é: R${total:.2f}")
 
-    # Seção de "Salvar Estoque" com Expansor (voltando ao formato inicial)
-    with st.expander("Salvar Estoque", expanded=False):
-        if st.button("Salvar Estoque", key="salvar"):
-            estoque.salvar_estoque()
-            st.success("Estoque salvo com sucesso!")
+    # Seção de "Salvar Estoque" com Botão
+    if salvar_btn:
+        estoque.salvar_estoque()
+        st.success("Estoque salvo com sucesso!")
 
 if __name__ == "__main__":
     menu()
