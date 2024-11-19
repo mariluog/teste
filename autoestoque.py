@@ -80,21 +80,26 @@ def menu():
 
     st.title("📦 Sistema de Organização de Estoque")
     st.markdown("""
-    Bem-vindo ao sistema de gerenciamento de estoque! Use o menu lateral para adicionar, remover, listar, 
+    Bem-vindo ao sistema de gerenciamento de estoque! Use os botões abaixo para adicionar, remover, listar, 
     organizar itens e calcular o valor total do estoque.
     """)
-    
+
     carregar_estoque_session()  # Carrega o estoque na sessão
     estoque = st.session_state.estoque
 
-    # Lateral - Menu de opções
+    # Lateral - Menu de opções com botões
     with st.sidebar:
         st.header("Menu")
-        opcao = st.radio("Escolha uma opção:", ("Adicionar Itens", "Remover Itens", "Listar Itens", "Organizar Itens", "Valor Total"))
+        
+        # Botões para navegação entre as seções
+        adicionar_btn = st.button("Adicionar Itens")
+        remover_btn = st.button("Remover Itens")
+        listar_btn = st.button("Listar Itens")
+        organizar_btn = st.button("Organizar Itens")
+        valor_total_btn = st.button("Valor Total")
 
-    # Opções dependendo da escolha do menu lateral
-    if opcao == "Adicionar Itens":
-        # Adicionar Item
+    # Ações com base nos botões clicados
+    if adicionar_btn:
         st.subheader("Adicionar Item")
         nome = st.text_input("Nome do Item:", placeholder="Digite o nome do item")
         quantidade = st.number_input("Quantidade", min_value=1, step=1)
@@ -109,8 +114,7 @@ def menu():
                 else:
                     st.error("Preencha todos os campos corretamente!")
 
-    elif opcao == "Remover Itens":
-        # Remover Item
+    elif remover_btn:
         st.subheader("Remover Item")
         nome_remover = st.text_input("Nome do Item para Remover:", placeholder="Digite o nome do item")
         quantidade_remover = st.number_input("Quantidade a Remover", min_value=1, step=1)
@@ -121,14 +125,12 @@ def menu():
             else:
                 st.error("Preencha todos os campos corretamente!")
 
-    elif opcao == "Listar Itens":
-        # Listar Itens
+    elif listar_btn:
         st.subheader("Itens no Estoque")
         if st.button("Listar Itens", key="listar"):
             estoque.listar_itens()
 
-    elif opcao == "Organizar Itens":
-        # Organizar Itens
+    elif organizar_btn:
         st.subheader("Organizar Itens")
         organizar_opcao = st.radio("Como deseja organizar?", ("Por ordem alfabética", "Por quantidade"))
         if organizar_opcao == "Por ordem alfabética":
@@ -140,14 +142,13 @@ def menu():
                 estoque.organizar_por_quantidade()
                 st.success("Itens organizados por quantidade!")
 
-    elif opcao == "Valor Total":
-        # Valor Total do Estoque
+    elif valor_total_btn:
         st.subheader("Valor Total do Estoque")
         if st.button("Calcular Valor Total", key="calcular_valor"):
             total = estoque.valor_total_estoque()
             st.write(f"O valor total do estoque é: R${total:.2f}")
 
-    # Salvar o Estoque no Arquivo
+    # Seção de "Salvar Estoque" com Expansor (voltando ao formato inicial)
     with st.expander("Salvar Estoque", expanded=False):
         if st.button("Salvar Estoque", key="salvar"):
             estoque.salvar_estoque()
